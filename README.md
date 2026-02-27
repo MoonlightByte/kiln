@@ -8,34 +8,35 @@ Kiln is a Claude Code plugin that brings Material Design 3 and Apple Human Inter
 
 ## Features
 
-- **38 Audit & Polish Commands** - Comprehensive design review capabilities
+- **18 Audit & Polish Commands** - Comprehensive design review capabilities
 - **40+ Anti-Pattern Database** - Catches LLM-specific mobile code mistakes
 - **WCAG 2.2 Level AA** - Full accessibility compliance checking
+- **Multi-Provider Support** - Works with Claude Code, Cursor, Gemini, and Codex
 - **Platform-Specific Skills** - Deep expertise for both Android and iOS
-- **Edit Guards** - Auto-inject anti-pattern checklists when editing code
 
 ## Installation
 
 ### Claude Code
-
 ```bash
-# Install from this repository
-git clone https://github.com/MoonlightByte/kiln.git
-mv kiln ~/.claude/plugins/
+# Clone or download the plugin, then copy the dist to your plugins folder
+mkdir -p ~/.claude/plugins/kiln
+cp -r dist/claude-code/* ~/.claude/plugins/kiln/
+
+# Or add to installed_plugins.json for local development:
+# "kiln@local": [{ "scope": "project", "installPath": "/path/to/kiln/dist/claude-code", "version": "1.0.0" }]
 ```
 
-Or add to your Claude Code settings:
-```json
-{
-  "plugins": [
-    "https://github.com/MoonlightByte/kiln"
-  ]
-}
+### Cursor
+```bash
+cp -r dist/cursor/.cursor ~/.cursor/rules/kiln
 ```
+
+### Other Providers
+See `dist/gemini/` and `dist/codex/` for provider-specific formats.
 
 ## Commands
 
-### Core Audit Commands
+### Audit Commands
 | Command | Description |
 |---------|-------------|
 | `/audit-material` | Audit Compose code for Material Design 3 compliance |
@@ -52,32 +53,26 @@ Or add to your Claude Code settings:
 | `/polish-ios` | Refine SwiftUI to iOS-native polish |
 | `/polish-motion` | Refine animations for platform feel |
 
-### Platform Adaptation
+### Simplify Commands
+| Command | Description |
+|---------|-------------|
+| `/simplify-compose` | Reduce Compose complexity |
+| `/simplify-swiftui` | Reduce SwiftUI complexity |
+
+### Adapt Commands
 | Command | Description |
 |---------|-------------|
 | `/adapt-android-to-ios` | Port Compose to SwiftUI |
 | `/adapt-ios-to-android` | Port SwiftUI to Compose |
 
-### Specialized Audits
+### Specialized Commands
 | Command | Description |
 |---------|-------------|
-| `/audit-edge-to-edge` | Android edge-to-edge display compliance |
-| `/audit-predictive-back` | Android predictive back gesture support |
-| `/audit-liquid-glass` | iOS 26+ Liquid Glass design language |
-| `/audit-observable` | SwiftUI @Observable macro patterns |
-| `/audit-dynamic-color-2` | Material Dynamic Color v2 |
-| `/audit-shape-morphing` | M3 shape morphing animations |
 | `/dark-mode-audit` | Dark mode and contrast compliance |
 | `/responsive-audit` | Multi-device layout support |
-| `/performance-audit` | UI performance optimization |
-
-### Testing & Tokens
-| Command | Description |
-|---------|-------------|
-| `/generate-ui-tests` | Generate accessibility-focused UI tests |
-| `/setup-snapshot-testing` | Configure screenshot testing |
-| `/establish-design-tokens` | Create design token system |
-| `/verify-design-tokens` | Validate token usage consistency |
+| `/component-extract` | Extract reusable components |
+| `/critique-design` | Visual hierarchy review |
+| `/teach-mobile-design` | One-time design principles setup |
 
 ## Skills
 
@@ -107,12 +102,6 @@ Autonomous agent that runs multi-pass design review:
 4. Consistency check
 5. Synthesized report
 
-### material-auditor
-Material Design 3 compliance auditor for Android/Compose code.
-
-### swiftui-auditor
-Human Interface Guidelines compliance auditor for iOS/SwiftUI code.
-
 ### accessibility-auditor
 WCAG 2.2 Level AA compliance auditor:
 - Touch target validation
@@ -120,13 +109,6 @@ WCAG 2.2 Level AA compliance auditor:
 - Screen reader support
 - Focus management
 - Full compliance report
-
-## Edit Guards (Hooks)
-
-Kiln automatically injects anti-pattern checklists when you edit mobile code:
-
-- **compose-edit-guard** - Triggers on `*.kt` files, injects M3 checklist
-- **swiftui-edit-guard** - Triggers on `*.swift` files, injects HIG checklist
 
 ## Anti-Patterns Detected
 
@@ -161,38 +143,50 @@ Kiln automatically injects anti-pattern checklists when you edit mobile code:
 | 3.3.7 Redundant Entry | A | ✅ |
 | 3.3.8 Accessible Auth | AA | ✅ |
 
-## Project Structure
+## Development
 
+### Build
+```bash
+npm install
+npm run build
+```
+
+### Test
+```bash
+npm test
+```
+
+### Project Structure
 ```
 kiln/
-├── .claude-plugin/
-│   └── plugin.json          # Plugin manifest
-├── commands/                # 38 slash commands
-│   ├── audit-material.md
-│   ├── audit-swiftui.md
-│   ├── audit-accessibility.md
-│   └── ...
-├── agents/                  # 4 autonomous agents
-│   ├── design-reviewer.md
-│   ├── material-auditor.md
-│   ├── swiftui-auditor.md
-│   └── accessibility-auditor.md
-├── skills/                  # Platform expertise
-│   ├── android-design/
-│   │   ├── SKILL.md
-│   │   └── reference/       # 7 reference files
-│   ├── ios-design/
-│   │   ├── SKILL.md
-│   │   └── reference/       # 7 reference files
-│   └── shared/
-│       └── references/      # Cross-platform references
-├── hooks/
-│   ├── hooks.json           # Hook configuration
-│   ├── compose-edit-guard.md
-│   └── swiftui-edit-guard.md
-├── LICENSE
-└── README.md
+├── plugin.json              # Plugin manifest
+├── package.json             # Build dependencies
+├── README.md                # This file
+├── source/                  # Source files (edit these)
+│   ├── commands/            # 18 audit commands
+│   ├── skills/              # Platform skills
+│   │   ├── android-design/
+│   │   │   ├── SKILL.md
+│   │   │   └── reference/   # 7 reference files
+│   │   └── ios-design/
+│   │       ├── SKILL.md
+│   │       └── reference/   # 7 reference files
+│   └── agents/              # Autonomous agents
+├── scripts/                 # Build system
+│   └── build.js
+└── dist/                    # Generated (don't edit)
+    ├── claude-code/
+    ├── cursor/
+    ├── gemini/
+    └── codex/
 ```
+
+## Contributing
+
+1. Edit files in `source/`
+2. Run `npm run build`
+3. Test with your preferred provider
+4. Submit PR
 
 ## License
 
