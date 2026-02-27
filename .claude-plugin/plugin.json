@@ -1,0 +1,24 @@
+{
+  "name": "kiln",
+  "version": "1.0.0",
+  "description": "Mobile design excellence for Android (Jetpack Compose) and iOS (SwiftUI) - Harden your designs into production-ready quality",
+  "author": {
+    "name": "PartyOn Team",
+    "email": "hello@partyon.app"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MoonlightByte/kiln"
+  },
+  "keywords": [
+    "mobile",
+    "android",
+    "ios",
+    "material-design-3",
+    "swiftui",
+    "accessibility",
+    "wcag",
+    "jetpack-compose"
+  ]
+}

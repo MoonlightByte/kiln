@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt_file": "${CLAUDE_PLUGIN_ROOT}/hooks/compose-edit-guard.md",
+            "match_files": ["**/*.kt"]
+          },
+          {
+            "type": "prompt",
+            "prompt_file": "${CLAUDE_PLUGIN_ROOT}/hooks/swiftui-edit-guard.md",
+            "match_files": ["**/*.swift"]
+          }
+        ]
+      }
+    ]
+  }
+}
